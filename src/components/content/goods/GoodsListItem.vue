@@ -1,6 +1,10 @@
 <template>
     <div class="goods-item">
-        <img :src="goodsItem.show && goodsItem.show.img" alt="goods-img" @load="imgLoad">
+        <!--  
+          goodsItem.show && goodsItem.show.img -对应首页图片
+          goodsItem.image 对应详情页推荐图片
+        -->
+        <img :src="(goodsItem.show && goodsItem.show.img) || goodsItem.image " alt="goods-img" @load="imgLoad">
         <div class="goods-info">
             <p class="title">{{goodsItem.title}}</p>
             <span class="price">{{goodsItem.price}}</span>
@@ -23,7 +27,7 @@ export default {
     methods: {
         // 图片加载完成，解决图片没有加载完成时候better-scroll的bug
         imgLoad(){
-            this.$bus.$emit('itemImgLoad')
+            this.$bus.$emit('itemImgLoad');
         }
     },
 }

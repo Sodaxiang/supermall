@@ -49,6 +49,8 @@ import BackTop from '@/components/common/backTop/BackTop';
 import { getHomeMultidata,getHomeGoods } from '@/network/home';
 import { debounce } from '@/common/utils';
 
+// import {itemListenerMixin} from '@/common/mixin';
+
 export default {
     name: 'Home',
     components: {
@@ -75,6 +77,7 @@ export default {
             tabControlOffsetTop: 0, //tabControl距离顶部的距离
             isShowTabControl: false, //是否显示吸顶的tabControl
             saveScrollY: 0, //记录页面离开scrollY的距离
+            imgItemListener: null, //控制首页商品图片加载显示的listener
         }
     },
     computed: {
@@ -89,15 +92,17 @@ export default {
         this.getHomeGoods('new');
         this.getHomeGoods('sell');
     },
+    // mixins:[itemListenerMixin],
     mounted() {
         /**
          * 1.监听事件总线中商品图片全部加载完成
          * 运用函数防抖动
          */
         const refresh = debounce(this.$refs.scroll.refresh, 50)
-        this.$bus.$on('itemImgLoad', ()=>{
-           refresh()
-        });
+        this.imgItemListener = ()=>{
+            refresh;
+        }
+        this.$bus.$on('itemImgLoad', this.imgItemListener);
 
         /**
          * 2. 获取tabControl的offsetTop，做tabControl的吸顶效果
@@ -107,11 +112,19 @@ export default {
     },
     // 保留页面的滚动位置
     activated() {
-         this.$refs.scroll.scrollTo(0, this.saveScrollY, 0);
+        if( this.$refs.scroll){
+            this.$refs.scroll.scrollTo(0, this.saveScrollY, 0);
+            this.$refs.scroll.refresh();
+        }
+        // this.$refs.scroll.scrollTo(0, this.saveScrollY, 0);
+        // this.$refs.scroll.refresh();
     },
     deactivated() {
         // 页面失活时获取页面Y轴滚动的位置
         this.saveScrollY = this.$refs.scroll.getScrollY();
+
+        // 取消首页事件总线的监听，与详情页的推荐数据列表区分开
+        this.$bus.$off('itemImhLoad', this.imgItemListener);
     },
     methods: {
         /**
@@ -131,7 +144,6 @@ export default {
             // 2.障眼法显示tabControl吸顶
             this.isShowTabControl = Math.abs(position.y) > this.tabControlOffsetTop;
 
-            this.scrollY = Math.abs(position.y);
         },
         backTopClick(){
             this.$refs.scroll.scrollTo(0,0,500);

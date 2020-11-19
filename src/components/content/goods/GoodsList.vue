@@ -4,6 +4,7 @@
           v-for="(item, i) in goodsList"
           :key = i
           :goodsItem="item"
+          @click.native="clickGoods(item)"
          />
     </div>
 </template>
@@ -25,6 +26,15 @@ export default {
         }
     },
     mounted() {
+    },
+    methods: {
+        clickGoods(item){
+            /**
+             * iid 对应首页的id
+             * tradeItemId对应商品详情页推荐的id
+             */
+            this.$router.replace( item.iid ? '/detail/'+ item.iid : '/detail/'+item.tradeItemId);
+        }
     },
 }
 </script>
