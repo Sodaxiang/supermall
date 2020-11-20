@@ -1,16 +1,22 @@
 <template>
   <div class="detail">
-      <detail-nav-bar class="detail-bar"/>
-      <scroll class="content" ref="scroll">
+      <detail-nav-bar class="detail-bar" @tabClick="tabClick" ref="nav"/>
+      <scroll 
+        class="content" 
+        ref="scroll"
+        :probeType="3"
+        @scroll="handleScrollContent"
+      >
         <detail-swiper :topImages="topImages"/>
         <detail-base-info :baseInfo="baseInfo"/>
         <detail-shop-info :shopInfo="shopInfo"/>
         <detail-goods-info :goodsInfo = "goodsInfo" @goodsInfoImgLoad="goodsInfoImgLoad"/>
-        <detail-goods-params :goodsParams="goodsParams" />
-        <detail-comment-info :commentInfo="commentInfo"/>
-        <detail-recommend :recommendList="recommendList"/>
+        <detail-goods-params :goodsParams="goodsParams" ref="goodsParams" />
+        <detail-comment-info :commentInfo="commentInfo" ref="goodsComment"/>
+        <detail-recommend :recommendList="recommendList" ref="goodsRecommend"/>
       </scroll>
-     
+      <detail-bottom-bar />
+       <back-top @click.native="backTopClick" v-if="isShowBackTop" />
   </div>
 </template>
 
@@ -24,13 +30,15 @@ import DetailGoodsInfo from './childComps/DetailGoodsInfo';
 import DetailGoodsParams from './childComps/DetailGoodsParams';
 import DetailCommentInfo from './childComps/DetailCommentInfo';
 import DetailRecommend from './childComps/DetailRecommend';
+import DetailBottomBar from './childComps/DetailBottomBar';
 
 import Scroll from '@/components/common/scroll/Scroll';
+import BackTop from '@/components/common/backTop/BackTop';
 
 import { getGoodsDetail, getGoodsRecommend, Goods, Shop } from '@/network/detail.js';
 import { debounce } from '@/common/utils';
 // import {itemListenerMixin} from '@/common/mixin';
-
+import {backTopMixin} from '@/common/mixin';
 export default {
     name: 'Detail',
     data() {
@@ -44,6 +52,9 @@ export default {
             commentInfo:{},
             recommendList:[],
             imgItemListener: null, //控制商品推荐图片加载显示的listener
+            themeTopYs:[0],    //记录商品,参数，评论，推荐的offsetTop
+            currentIndex: 0, //记录滚动到某个具体的栏目参
+            // isShowBackTop: false,        
         }
     },
     components: {
@@ -55,9 +66,12 @@ export default {
         DetailGoodsParams,
         DetailCommentInfo,
         DetailRecommend,
-        Scroll
+        DetailBottomBar,
+        Scroll,
+        BackTop,
     },
     // mixins:[itemListenerMixin],
+    mixins:[backTopMixin],
     created() {
         this.iid = this.$route.params.iid || this.$route.params.tradeItemId;
         getGoodsDetail(this.iid).then(res =>{
@@ -83,7 +97,7 @@ export default {
         })
     },
     mounted() {
-         const refresh = debounce(this.$refs.scroll.refresh, 50)
+         const refresh = debounce(this.$refs.scroll.refresh, 50);
         this.imgItemListener = ()=>{
             refresh;
         }
@@ -95,8 +109,37 @@ export default {
     },
     methods: {
         goodsInfoImgLoad(){
+            // 需要在商品详情图片加载完成再获取各个部分的offsetTop
+            this.themeTopYs.push(this.$refs.goodsParams.$el.offsetTop,this.$refs.goodsComment.$el.offsetTop, this.$refs.goodsRecommend.$el.offsetTop);
+            // 滚动hack做法，空间换时间
+           this.themeTopYs.push(Number.MAX_VALUE);
             this.$refs.scorll &&  this.$refs.scorll.refresh();
-        }
+        },
+
+        //顶部导航栏点击
+        tabClick(i) {
+            this.$refs.scroll.scrollTo(0, -this.themeTopYs[i]);
+        },
+        //处理内容滚动事件
+        handleScrollContent(position){
+            let positionY = -position.y;
+            let length = this.themeTopYs.length;
+            //hack做法，
+            for(let i = 0; i<length; i++){
+                if(this.currentIndex!==i && positionY>=this.themeTopYs[i] && positionY<this.themeTopYs[i+1]){
+                    this.currentIndex = i;
+                    this.$refs.nav.currentTitleIndex = i;
+
+                }
+            }
+
+            // 是否显示backTop图标
+            this.isShowBackTop = Math.abs(position.y) > 1000;
+        },
+        //返回顶部
+        // backTopClick(){
+        //     this.$refs.scroll.scrollTo(0,0,500);
+        // },
     },
 }
 </script>
@@ -111,17 +154,17 @@ export default {
 }
 .detail-bar {
     position: relative;
-    z-index: 9;
+    /* z-index: 9; */
 }
 .content {
-    position: absolute;
+    /* position: absolute;
     top: 44px;
     left: 0;
     right: 0;
-    bottom: 0;
-    overflow: hidden;
+    bottom: 49px;
+    overflow: hidden; */
    /* height: 400px; */
-   /* height: calc(100% - 44px);  */
+   height: calc(100% - 44px - 58px); 
    overflow: hidden;
 }
 </style>

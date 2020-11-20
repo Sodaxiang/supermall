@@ -50,6 +50,7 @@ import { getHomeMultidata,getHomeGoods } from '@/network/home';
 import { debounce } from '@/common/utils';
 
 // import {itemListenerMixin} from '@/common/mixin';
+import {backTopMixin} from '@/common/mixin';
 
 export default {
     name: 'Home',
@@ -73,13 +74,14 @@ export default {
                 new:{page: 0, list: []},
                 sell:{page: 0, list: []}
             },
-            isShowBackTop: false, // 是否显示返回顶部按钮
+            // isShowBackTop: false, // 是否显示返回顶部按钮
             tabControlOffsetTop: 0, //tabControl距离顶部的距离
             isShowTabControl: false, //是否显示吸顶的tabControl
             saveScrollY: 0, //记录页面离开scrollY的距离
             imgItemListener: null, //控制首页商品图片加载显示的listener
         }
     },
+    mixins:[backTopMixin],
     computed: {
         showGoods(){
             return this.goods[this.currentType].list;
@@ -145,9 +147,9 @@ export default {
             this.isShowTabControl = Math.abs(position.y) > this.tabControlOffsetTop;
 
         },
-        backTopClick(){
-            this.$refs.scroll.scrollTo(0,0,500);
-        },
+        // backTopClick(){
+        //     this.$refs.scroll.scrollTo(0,0,500);
+        // },
         loadMoreGoods(){
             this.getHomeGoods(this.currentType);
         },

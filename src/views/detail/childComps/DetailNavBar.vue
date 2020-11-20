@@ -34,6 +34,7 @@ export default {
         },
         titleClick(i){
             this.currentTitleIndex = i;
+            this.$emit('tabClick', i, 500);
         }
     },
 }

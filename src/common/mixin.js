@@ -14,3 +14,17 @@ export const itemListenerMixin = {
         this.$bus.$on('itemImgLoad', this.imgItemListener);
     },
 }
+
+// 返回顶部图标德混入
+export const backTopMixin = {
+    data(){
+        return {
+            isShowBackTop: false,   
+        }
+    },
+    methods: {
+        backTopClick(){
+            this.$refs.scroll.scrollTo(0,0,500);
+        },
+    },
+}
