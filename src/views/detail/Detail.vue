@@ -112,6 +112,7 @@ export default {
             // 需要在商品详情图片加载完成再获取各个部分的offsetTop
             this.themeTopYs.push(this.$refs.goodsParams.$el.offsetTop,this.$refs.goodsComment.$el.offsetTop, this.$refs.goodsRecommend.$el.offsetTop);
             // 滚动hack做法，空间换时间
+            console.log(this.themeTopYs, "asa");
            this.themeTopYs.push(Number.MAX_VALUE);
             this.$refs.scorll &&  this.$refs.scorll.refresh();
         },
@@ -171,14 +172,14 @@ export default {
     /* z-index: 9; */
 }
 .content {
-    /* position: absolute;
+    position: absolute;
     top: 44px;
     left: 0;
     right: 0;
-    bottom: 49px;
-    overflow: hidden; */
+    bottom: 58px;
+    /* overflow: hidden; */
    /* height: 400px; */
-   height: calc(100% - 44px - 58px); 
+   /* height: calc(100% - 44px - 58px);  */
    overflow: hidden;
 }
 </style>

@@ -35,9 +35,10 @@ export default {
 <style scoped>
 .bottom-bar {
     height: 58px;
-    /* background: red; */
-    position: relative;
-    /* bottom: 49px; */
+    width: 100%;
+    /* position: relative; */
+    position: fixed;
+    bottom: 0;
     display: flex;
 }
 .bar-item {
