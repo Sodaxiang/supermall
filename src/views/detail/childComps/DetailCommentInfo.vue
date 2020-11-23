@@ -4,7 +4,7 @@
             <div class="header-title">用户评价</div>
             <div class="header-more">更多></div>
         </div>
-        <div class="info-content" v-if="Object.keys(comment).length">
+        <div class="info-content" v-if="comment && comment.length">
             <div>
                 <div class="user">
                     <span>
@@ -44,7 +44,7 @@ export default {
     },
     computed: {
         comment(){
-            return Object.keys(this.commentInfo).length && this.commentInfo.list[0];
+            return Object.keys(this.commentInfo).length && this.commentInfo.list && this.commentInfo.list[0];
         }
     },
     filters:{

@@ -15,8 +15,8 @@
         <detail-comment-info :commentInfo="commentInfo" ref="goodsComment"/>
         <detail-recommend :recommendList="recommendList" ref="goodsRecommend"/>
       </scroll>
-      <detail-bottom-bar />
-       <back-top @click.native="backTopClick" v-if="isShowBackTop" />
+      <detail-bottom-bar @addCart="addCart"/>
+      <back-top @click.native="backTopClick" v-if="isShowBackTop" />
   </div>
 </template>
 
@@ -76,7 +76,7 @@ export default {
         this.iid = this.$route.params.iid || this.$route.params.tradeItemId;
         getGoodsDetail(this.iid).then(res =>{
            let data = res.result;
-
+           console.log(data);
            // 获取顶部轮播图
            this.topImages = data.itemInfo.topImages;
            // 获取商品的基本信息
@@ -140,6 +140,20 @@ export default {
         // backTopClick(){
         //     this.$refs.scroll.scrollTo(0,0,500);
         // },
+
+        //商品加入购物车
+        addCart(){ 
+
+            const product = {};
+            product.image = this.topImages[0];
+            product.title = this.baseInfo.title;
+            product.desc = this.baseInfo.desc;
+            product.price = this.baseInfo.newPrice;
+            product.iid = this.baseInfo.iid;
+            product.realPrice = this.baseInfo.realPrice;
+
+            this.$store.dispatch('addCart', product);
+        }
     },
 }
 </script>
