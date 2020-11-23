@@ -112,7 +112,6 @@ export default {
             // 需要在商品详情图片加载完成再获取各个部分的offsetTop
             this.themeTopYs.push(this.$refs.goodsParams.$el.offsetTop,this.$refs.goodsComment.$el.offsetTop, this.$refs.goodsRecommend.$el.offsetTop);
             // 滚动hack做法，空间换时间
-            console.log(this.themeTopYs, "asa");
            this.themeTopYs.push(Number.MAX_VALUE);
             this.$refs.scorll &&  this.$refs.scorll.refresh();
         },
