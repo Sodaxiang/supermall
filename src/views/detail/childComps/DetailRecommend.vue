@@ -8,7 +8,7 @@
 
 <script>
 import GoodsList from '@/components/content/goods/GoodsList';
-// :goodsList="showGoods"
+
 export default {
     name: 'DetailRecommend',
     props:{

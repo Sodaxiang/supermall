@@ -33,7 +33,12 @@ export default {
              * iid 对应首页的id
              * tradeItemId对应商品详情页推荐的id
              */
-            this.$router.replace( item.iid ? '/detail/'+ item.iid : '/detail/'+item.tradeItemId);
+            if(item.iid){
+                 this.$router.push('/detail/'+ item.iid); 
+            }else {
+                this.$router.replace('/detail/'+item.tradeItemId);
+            }
+            // this.$router.push( item.iid ? '/detail/'+ item.iid : '/detail/'+item.tradeItemId);
         }
     },
 }

@@ -4,7 +4,7 @@ export function request(config) {
 
     //1. 创建axios实例
     const instance = axios.create({
-        baseURL: 'http://152.136.185.210:8000/api/w6',
+        baseURL: '找老师要',
         timeout: 5000,
     });
 

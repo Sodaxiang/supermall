@@ -5,12 +5,14 @@
             <span>全选</span>
         </div>
         <div class="all-price">合计：￥{{totalPrice}}</div>
-        <div class="settle-accounts">去结算</div>
+        <div class="settle-accounts" @click="handleSettleAccounts">去结算（{{totalNum}}）</div>
     </div>
 </template>
 
 <script>
 import CheckGoodsBtn from '@/components/content/checkGoodsBtn/CheckGoodsBtn';
+
+import {debounce} from '@/common/utils';
 
 import { mapGetters } from 'vuex';
 
@@ -32,6 +34,12 @@ export default {
                                 .reduce((prev,curr)=>{
                                     return prev + curr.realPrice * curr.num;
                                 }, 0).toFixed(2);
+        },
+        totalNum(){
+            return this.cartList.filter(item=>item.isSelected)
+                                .reduce((prev,curr)=>{
+                                    return prev + curr.num;
+                                }, 0);
         }
     },
     methods: {
@@ -41,6 +49,13 @@ export default {
            }else {
                this.cartList.map(item => item.isSelected = true);
            }
+        },
+        handleSettleAccounts(){
+        // 防抖
+           let toast = debounce(()=>{
+               this.$toast.show("去结算");
+           }, 500);
+           toast();  
         }
     },
 }

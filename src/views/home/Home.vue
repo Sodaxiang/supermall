@@ -1,7 +1,7 @@
 <template>
     <div id="home">
         <nav-bar class="home-nav">
-            <div slot="center">购物车</div>
+            <div slot="center">购物街</div>
         </nav-bar>
         <tab-control 
                 :titles="['流行','新款','精选']" 
@@ -115,7 +115,7 @@ export default {
     // 保留页面的滚动位置
     activated() {
         if( this.$refs.scroll){
-            this.$refs.scroll.scrollTo(0, this.saveScrollY, 0);
+            this.$refs.scroll.scrollTo(0, this.saveScrollY);
             this.$refs.scroll.refresh();
         }
         // this.$refs.scroll.scrollTo(0, this.saveScrollY, 0);

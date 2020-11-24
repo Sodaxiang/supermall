@@ -54,7 +54,7 @@ export default {
             imgItemListener: null, //控制商品推荐图片加载显示的listener
             themeTopYs:[0],    //记录商品,参数，评论，推荐的offsetTop
             currentIndex: 0, //记录滚动到某个具体的栏目参
-            // isShowBackTop: false,        
+            // isShowBackTop: false,       
         }
     },
     components: {
@@ -74,22 +74,8 @@ export default {
     mixins:[backTopMixin],
     created() {
         this.iid = this.$route.params.iid || this.$route.params.tradeItemId;
-        getGoodsDetail(this.iid).then(res =>{
-           let data = res.result;
-           console.log(data);
-           // 获取顶部轮播图
-           this.topImages = data.itemInfo.topImages;
-           // 获取商品的基本信息
-           this.baseInfo = new Goods(data.itemInfo, data.columns, data.shopInfo.services);
-           // 获取商家信息
-           this.shopInfo = new Shop(data.shopInfo);
-           // 获取商品图片信息
-           this.goodsInfo = data.detailInfo;
-           // 获取商品参数信息
-           this.goodsParams = data.itemParams
-           //获取评论信息
-           this.commentInfo = data.rate;
-        });
+         // 获取商品信息
+        this.getGoodsDetail();
 
         // 获取推荐商品列表
         getGoodsRecommend().then(res=> {
@@ -107,7 +93,35 @@ export default {
          // 取消详情页推荐商品事件总线的监听，与首页商品列表区分开
         this.$bus.$on('itemImgLoad', this.imgItemListener);
     },
+    watch:{
+        // 监听路由变化，重获取数据
+        '$route'(to, from){
+           this.iid = to.params.iid;
+           this.getGoodsDetail();
+        }
+    },
     methods: {
+        // 获取商品信息
+        getGoodsDetail(){
+            getGoodsDetail(this.iid).then(res =>{
+                let data = res.result;
+                // 获取顶部轮播图
+                this.topImages = data.itemInfo.topImages;
+                // 获取商品的基本信息
+                this.baseInfo = new Goods(data.itemInfo, data.columns, data.shopInfo.services);
+                // 获取商家信息
+                this.shopInfo = new Shop(data.shopInfo);
+                // 获取商品图片信息
+                this.goodsInfo = data.detailInfo;
+                // 获取商品参数信息
+                this.goodsParams = data.itemParams
+                //获取评论信息
+                this.commentInfo = data.rate;
+            }).catch(err=>{
+                console.log('Whoops,something bad happened~');
+            });
+        },
+        //页面商品详情图片加载
         goodsInfoImgLoad(){
             // 需要在商品详情图片加载完成再获取各个部分的offsetTop
             this.themeTopYs.push(this.$refs.goodsParams.$el.offsetTop,this.$refs.goodsComment.$el.offsetTop, this.$refs.goodsRecommend.$el.offsetTop);
@@ -152,7 +166,9 @@ export default {
             product.iid = this.baseInfo.iid;
             product.realPrice = this.baseInfo.realPrice;
 
-            this.$store.dispatch('addCart', product);
+            this.$store.dispatch('addCart', product).then((res)=>{
+                this.$toast.show(res, 2000);
+            });
         }
     },
 }
