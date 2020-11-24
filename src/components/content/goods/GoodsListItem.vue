@@ -4,7 +4,7 @@
           goodsItem.show && goodsItem.show.img -对应首页图片
           goodsItem.image 对应详情页推荐图片
         -->
-        <img :src="(goodsItem.show && goodsItem.show.img) || goodsItem.image " alt="goods-img" @load="imgLoad">
+        <img  v-lazy="(goodsItem.show && goodsItem.show.img) || goodsItem.image " alt="goods-img" @load="imgLoad">
         <div class="goods-info">
             <p class="title">{{goodsItem.title}}</p>
             <span class="price">{{goodsItem.price}}</span>
