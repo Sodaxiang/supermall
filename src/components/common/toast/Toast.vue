@@ -18,10 +18,10 @@ export default {
             this.message = message;
             this.isShow = true;
             //  可以用setTimeout实现，也可以用动画实现
-            // setTimeout(()=>{
-            //     this.isShow = false;
-            //     this.message = '';
-            // }, duration);
+            setTimeout(()=>{
+                this.isShow = false;
+                this.message = '';
+            }, duration);
         }
     },
 }
