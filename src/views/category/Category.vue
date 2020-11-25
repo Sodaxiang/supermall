@@ -4,10 +4,12 @@
            <div slot="center">商品分类</div>
        </nav-bar>
        <div class="category-content">
-           <scroll class="category-side-bar">
+           <div class="category-side-bar">
                <category-side-bar :categoryList="categoryList" @handleCategoryClick="handleCategoryClick"/>
-           </scroll>
-           <category-side-content  class="category-side-content"  :subCategoryInfo="subCategoryInfo"/>
+           </div>
+            <scroll class="category-side-content" ref="scroll" >
+               <category-side-content :subCategoryList="subCategoryList" />
+            </scroll>
        </div>
        
       
@@ -30,8 +32,7 @@ export default {
         return {
             categoryList:[],
             subCategoryMaitKey:'',
-            // subCategoryList: [],
-            subCategoryInfo:''
+            subCategoryList: [],
         }
     },
     components:{
@@ -49,14 +50,16 @@ export default {
              this.getSubCategory(key);
         })
     },
+    watch: {
+    },
     methods: {
         handleCategoryClick(maitKey){
             this.getSubCategory(maitKey);
         },
         getSubCategory(key){
             getSubCategory(key).then(res=>{
-                this.subCategoryInfo = `maitKey为${key}的子类型获取成功`
-                console.log(res, "sub");
+                this.subCategoryList = res.data.list;
+                this.$refs.scroll.scrollTo(0,0,500);
             })
         }
     },
@@ -70,16 +73,17 @@ export default {
 .category-bar {
     background: var(--color-tint);
     color: #fff;
+    z-index: 9;
 }
 .category-side-bar {
     width: 100px;
-    position: absolute;
+    position: fixed;
     top: 44px;
     left: 0;
     right: 0;
     bottom: 49px;
     /* height: calc(100% - 44px - 49px); */
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 .category-side-content {
     position: absolute;
@@ -87,6 +91,8 @@ export default {
     right: 0;
     top: 44px;
     bottom: 49px;
+    width: calc(100% - 100px);
+    overflow: hidden;
 }
 </style>
 

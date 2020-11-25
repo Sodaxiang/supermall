@@ -17,6 +17,7 @@ export default {
     data() {
         return {
             currentIndex: 0,
+            maitKey: '', //记录maitKey
         }
     },
     props:{
@@ -29,10 +30,22 @@ export default {
     },
     components: {
     },
+    watch: {
+        maitKey(to,from){
+            // 当发现maitKey改变时再触发categoryClick函数
+            this.$emit('handleCategoryClick', to);
+        }
+    },
     methods: {
         handleCategoryClick(index, item){
             this.currentIndex = index;
-            this.$emit('handleCategoryClick', item.maitKey);
+            this.maitKey = item.maitKey;
+            // if(this.maitKey=== item.maitKey){
+            //     return;
+            // }else{
+            //      this.$emit('handleCategoryClick', item.maitKey);
+            // }
+           
         }
     },
 }
@@ -42,10 +55,11 @@ export default {
     width: 100px;
     background: #f6f6f6;
     font-size: 18px;
+    height: 100%;
 }
 .sidebar ul li {
     text-align: center;
-    padding: 10px;
+    padding: 4px;
 }
 .active {
     background: #fff;

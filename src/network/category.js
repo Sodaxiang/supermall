@@ -7,7 +7,7 @@ export function getAllCategory(){
 }
 export function getSubCategory(maitKey) {
     return request({
-        url: '/category',
+        url: '/subcategory',
         params:{
             maitKey
         }

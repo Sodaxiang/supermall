@@ -1,24 +1,36 @@
 <template>
     <div class="sidecontent">
-        {{subCategoryInfo}}
+        <category-side-content-item 
+            v-for="(item, index) in subCategoryList" 
+            :key="index"
+            :subCategoryItem="item"
+        />
     </div>
 </template>
 
 <script>
+import CategorySideContentItem from './CategorySideContentItem';
 export default {
     name: 'CategorySideContent',
     props: {
-        subCategoryInfo: {
-            type: String,
-            default: '',
+        subCategoryList:{
+            type: Array,
+            default(){
+                return [];
+            }
         }
+    },
+    components: {
+        CategorySideContentItem
     }
 }
 </script>
 <style scoped>
 .sidecontent {
-    text-align: center;
-    padding-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 10px;
 }
 </style>
 
