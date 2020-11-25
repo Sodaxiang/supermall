@@ -2,7 +2,7 @@
 
 ### 1.项目简介
 > * 该项目为使用vue-cli4搭建的一个前后端分离的商城项目；
-> * 使用了Vue，Vuex，Vue-Router,ES6，Axios以及Webpack等前端技术；
+> * 使用了Vue[包括混入mixin，过滤器filters相关等]，Vuex，Vue-Router,ES6，Axios以及Webpack等前端技术；
 > * 主要包含商城首页，详情页，购物车，商品分类，个人中心等模块；
 > * 项目涉及vue-lazyload, better-scroll相关运用。
 
@@ -30,6 +30,12 @@
 >
  ![cart1](https://img-blog.csdnimg.cn/20201125101627310.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MTU1NTgy,size_16,color_FFFFFF,t_70)
  ![cart2](https://img-blog.csdnimg.cn/20201125101642320.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MTU1NTgy,size_16,color_FFFFFF,t_70)
+
+ ###### 4）分类页
+> 主要包括左边的主分类与右边的子分类
+>
+ ![cart1](https://img-blog.csdnimg.cn/20201125130205589.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MTU1NTgy,size_16,color_FFFFFF,t_70)
+ ![cart2](https://img-blog.csdnimg.cn/20201125130220719.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM3MTU1NTgy,size_16,color_FFFFFF,t_70)
 
 ### 4.项目非常适合Vue实战练手，能够有效提升以及理解对Vue的综合运用以及组件化，模块开发以及工程化思想。
 > 如有帮助，请给一个star喔~
