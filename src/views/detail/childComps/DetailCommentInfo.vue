@@ -56,6 +56,7 @@ export default {
         if (!fmt) fmt = "yyyy-MM-dd hh:mm:ss";
 
         if (!date || date == null) return null;
+        // 将传入的date准换为时间对象，*1000是为了将秒转成毫秒；
           date = new Date(date *1000);
           var o = {
             'M+': date.getMonth() + 1, // 月份

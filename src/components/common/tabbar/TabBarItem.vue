@@ -30,8 +30,26 @@ export default {
       }
     },
     methods: {
+      // 解决路由重复跳转报错
+      /*
+        pushRouteTo(params) {
+            // get comparable fullPaths
+                let from  = this.$route.fullPath;
+                let to    = this.$router.resolve(params).route.fullPath;
+                if(from === to) { 
+                    // handle any error due the redundant navigation here
+                    // or handle any other param modification and route afterwards
+                        return ;
+                    }
+
+                // route as expected
+                this.$router.push(params);
+            },
+      */
       handleClick(){
-        this.$router.push(this.path);
+        this.$router.push(this.path)
+                    // .catch((err)=>{console.log(err)});
+        //  this.pushRouteTo(this.path);
       }
     },
 }

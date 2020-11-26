@@ -96,8 +96,10 @@ export default {
     watch:{
         // 监听路由变化，重获取数据
         '$route'(to, from){
-           this.iid = to.params.iid;
+          if(to.fullPath.indexOf('detail')!==-1){
+              this.iid = to.params.iid;
            this.getGoodsDetail();
+          }
         }
     },
     methods: {
