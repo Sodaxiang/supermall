@@ -126,7 +126,7 @@ export default {
         this.saveScrollY = this.$refs.scroll.getScrollY();
 
         // 取消首页事件总线的监听，与详情页的推荐数据列表区分开
-        this.$bus.$off('itemImhLoad', this.imgItemListener);
+        this.$bus.$off('itemImgLoad', this.imgItemListener);
     },
     methods: {
         /**

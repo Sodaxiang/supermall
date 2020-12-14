@@ -91,7 +91,7 @@ export default {
     },
     destroyed() {
          // 取消详情页推荐商品事件总线的监听，与首页商品列表区分开
-        this.$bus.$on('itemImgLoad', this.imgItemListener);
+        this.$bus.$off('itemImgLoad', this.imgItemListener);
     },
     watch:{
         // 监听路由变化，重获取数据

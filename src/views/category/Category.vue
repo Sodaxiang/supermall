@@ -25,7 +25,7 @@ import NavBar from '@/components/common/navbar/NavBar';
 import Scroll from '@/components/common/scroll/Scroll';
 
 import { getAllCategory, getSubCategory } from '@/network/category';
-
+import {itemListenerMixin} from '@/common/mixin';//监听图片加载的混入
 export default {
     name: 'Category',
     data() {
@@ -41,6 +41,7 @@ export default {
         CategorySideContent,
         Scroll
     },
+    mixins:[itemListenerMixin],
     created() {
         getAllCategory().then(res=> {
             this.categoryList = res.data.category.list;
@@ -49,6 +50,10 @@ export default {
         }).then(key=>{
              this.getSubCategory(key);
         })
+    },
+    deactivated() {
+        // 取消首页事件总线的监听，与首页商品图片加载分开
+        this.$bus.$off('itemImgLoad', this.imgItemListener);
     },
     watch: {
     },

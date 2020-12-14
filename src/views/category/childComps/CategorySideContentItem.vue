@@ -1,6 +1,6 @@
 <template>
     <div class="sidecontent-item">
-        <img :src="subCategoryItem.image" alt="subcategory">
+        <img v-lazy="subCategoryItem.image" alt="subcategory" @load="imgLoad">
         <p>{{subCategoryItem.title}}</p>
     </div>
 </template>
@@ -15,7 +15,13 @@ export default {
                 return {};
             }
         }
-    }
+    },
+    methods: {
+        imgLoad(){
+        this.$bus.$emit('itemImgLoad');
+      }
+    },
+    
 }
 </script>
 
